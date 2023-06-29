@@ -108,7 +108,7 @@ def visualizar():
             # Mostramos en el GUI
             lblVideo.configure(image=img)
             lblVideo.image = img
-            lblVideo.after(10, visualizar)
+            lblVideo.after(0.0001, visualizar)
 
         else:
             cap.release()
@@ -199,11 +199,11 @@ background.place(x = 0, y = 0, relwidth = 1, relheight = 1)
 texto1 = Label(pantalla, text="VIDEO EN TIEMPO REAL: ")
 texto1.place(x = 580, y = 10)
 
-texto2 = Label(pantalla, text="CONVERSION DE COLOR: ")
-texto2.place(x = 1010, y = 100)
+#texto2 = Label(pantalla, text="CONVERSION DE COLOR: ")
+#texto2.place(x = 1010, y = 100)
 
-texto3 = Label(pantalla, text="DETECCION DE COLOR: ")
-texto3.place(x = 110, y = 100)
+#texto3 = Label(pantalla, text="DETECCION DE COLOR: ")
+#texto3.place(x = 110, y = 100)
 
 # Botones
 # Iniciar Video
