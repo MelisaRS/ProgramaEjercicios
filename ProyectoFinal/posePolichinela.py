@@ -54,7 +54,7 @@ def polichinelas():
                          angle = degrees(acos((l1**2 + l3**2 - l2**2) / (2 * l1 * l3)))
                          if angle >= 160:
                               up = True
-                         if up == True and down == False and angle <= 100:
+                         if up == True and down == False and angle <= 50:
                               down = True
                          if up == True and down == True and angle >= 160:
                               count += 1
@@ -84,6 +84,10 @@ def polichinelas():
                          
                          cv2.imshow("Ejercicios de Polichinelas", output)
 
+               cv2.rectangle(frame,(0, 0), (500, 80), (255, 255, 0), -1)
+               cv2.putText(frame, "Por favor posicionarse ", (10, 30), 1, 2, (128, 0, 250), 2 )
+               cv2.putText(frame, "dentro de la camara", (10, 60), 1, 2, (128, 0, 250), 2 )
+               
                cv2.imshow("Frame Polichinelas", frame)
                if cv2.waitKey(1) & 0xFF == 27:
                     break

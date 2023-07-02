@@ -4,12 +4,21 @@ import numpy as np
 from math import acos, degrees
 
 def mancuernas():
+     
+     #para dibujar anotaciones en imágenes o frames. Estas funciones 
+     #se utilizan para visualizar los resultados obtenidos mediante MediaPipe.
      mp_drawing = mp.solutions.drawing_utils
+     
+     #es un modelo preentrenado de MediaPipe para detectar y estimar poses 
+     # humanas en imágenes o frames. Proporciona métodos y funciones para procesar imágenes 
+     # y obtener los landmarks (puntos de referencia) correspondientes a las articulaciones 
+     # y partes del cuerpo humano
      mp_pose = mp.solutions.pose
 
      #cap = cv2.VideoCapture("video_001.mp4")
-     cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
      #cap = cv2.VideoCapture("sentadilla.mp4")
+     cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+     
      up = False
      down = False
      count = 0
@@ -25,6 +34,9 @@ def mancuernas():
                frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                results = pose.process(frame_rgb)
 
+               #si no es nula -> garantiza que se hayan detectado landmarks 
+               # de la pose antes de realizar operaciones adicionales
+               # o cálculos basados en esos landmarks.
                if results.pose_landmarks is not None:
                     x1 = int(results.pose_landmarks.landmark[11].x * width)
                     y1 = int(results.pose_landmarks.landmark[11].y * height)
@@ -39,24 +51,21 @@ def mancuernas():
                     if 0 <= x1 < width and 0 <= y1 < height and 0 <= x2 < width and 0 <= y2 < height and 0 <= x3 < width and 0 <= y3 < height:
                     
                          # Realizando los cálculos
-
+                         #Creamos un vector
                          p1 = np.array([x1, y1])
                          p2 = np.array([x2, y2])
                          p3 = np.array([x3, y3])
 
+                         #la longitud del vector resultante con la norma Euclidiana del vector
                          l1 = np.linalg.norm(p2 - p3)
                          l2 = np.linalg.norm(p1 - p3)
                          l3 = np.linalg.norm(p1 - p2)
-
-                         #verficar q los puntos esten dentro de la pantalla
-                         #con el .shape de la pantalla
-                         #y si estan adentro recien hacer la deteccion y el calculo del angulo
 
                          # Calcular el ángulo
                          angle = degrees(acos((l1**2 + l3**2 - l2**2) / (2 * l1 * l3)))
                          if angle >= 160:
                               up = True
-                         if up == True and down == False and angle <= 100:
+                         if up == True and down == False and angle <= 90:
                               down = True
                          if up == True and down == True and angle >= 160:
                               count += 1
@@ -64,15 +73,16 @@ def mancuernas():
                               down = False
 
                          #print("count: ", count)
+
                          # Visualización
-                         aux_image = np.zeros(frame.shape, np.uint8)
+                         aux_image = np.zeros(frame.shape, np.uint8) #matriz de ceros #tipo de datos de 8 bits sin signo (0-255) para pintarlo
                          cv2.line(aux_image, (x1, y1), (x2, y2), (255, 255, 0), 20)
                          cv2.line(aux_image, (x2, y2), (x3, y3), (255, 255, 0), 20)
                          cv2.line(aux_image, (x1, y1), (x3, y3), (255, 255, 0), 5)
                          contours = np.array([[x1, y1], [x2, y2], [x3, y3]])
-                         cv2.fillPoly(aux_image, pts=[contours], color=(128, 0, 250))
+                         cv2.fillPoly(aux_image, pts=[contours], color=(128, 0, 250)) #rellena un polígono en la imagen 
 
-                         output = cv2.addWeighted(frame, 1, aux_image, 0.8, 0)
+                         output = cv2.addWeighted(frame, 1, aux_image, 0.8, 0) #una combinación ponderada de dos imágenes, frame y aux_image
 
                          cv2.circle(output, (x1, y1), 6, (0, 255, 255), 4)
                          cv2.circle(output, (x2, y2), 6, (128, 0, 250), 4)
@@ -97,4 +107,3 @@ def mancuernas():
      cap.release()
      cv2.destroyAllWindows()
 
-#sugerencia de interfaz, hacer un main q contenga q si apreto cierta tecla, yo pueda hacer que se ponga en funcionamiento cualquiera de mis 5 codigos para hacer los ejercicios.

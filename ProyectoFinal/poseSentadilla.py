@@ -82,7 +82,11 @@ def sentadillas():
                          cv2.putText(output, "Ejercicios de Sentadillas", (110, 30), 1, 2, (128, 0, 250), 2 )
                          
                          cv2.imshow("Ejercicios de Sentadillas", output)
-
+               
+               cv2.rectangle(frame,(0, 0), (500, 80), (255, 255, 0), -1)
+               cv2.putText(frame, "Por favor posicionarse ", (10, 30), 1, 2, (128, 0, 250), 2 )
+               cv2.putText(frame, "dentro de la camara", (10, 60), 1, 2, (128, 0, 250), 2 )
+               
                cv2.imshow("Frame Sentadillas", frame)
 
                if cv2.waitKey(1) & 0xFF == 27:

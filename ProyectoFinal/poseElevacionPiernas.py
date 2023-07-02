@@ -78,7 +78,6 @@ def elevacion():
                          cv2.rectangle(output, (0, 0), (60, 60), (255, 255, 0), -1)
                          cv2.putText(output, str(int(angle)), (x2 + 30, y2), 1, 1.5, (128, 0, 250), 2)
                          cv2.putText(output, str(count), (10, 50), 1, 3.5, (128, 0, 250), 2)
-                         
                          cv2.rectangle(output, (100, 0), (600, 40), (255, 255, 0), -1)
                          cv2.putText(output, "Ejercicios de Elevaciones", (110, 30), 1, 2, (128, 0, 250), 2 )
                          
